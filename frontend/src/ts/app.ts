@@ -8,7 +8,10 @@ $(() => {
 
     // view.render('.visualization');
     
-    view.showCurrentLevel();
+    // view.showCurrentLevel();
+    
+    window.model = model;
+    window.view = view;
 
     // typeahead
     $('input.typeahead').typeahead({

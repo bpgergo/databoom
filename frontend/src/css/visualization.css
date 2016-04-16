@@ -1,7 +1,7 @@
 .visualization .frame {
-    /*border: 1px solid gray;*/
-    width: 984px;
-    margin: auto 0;
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .visualization .breadcrumbs {
@@ -38,7 +38,7 @@
 
 .visualization .category-labels {
     float: left;
-    width: 340px;
+    width: 500px;
     font-size: 12pt;
 }
     .visualization .category-label {

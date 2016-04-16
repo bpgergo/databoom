@@ -5,37 +5,61 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var VisualizationModel = (function () {
     function VisualizationModel() {
+        var _this = this;
         this.autocompleteValues = [
-            'Audi',
-            'BMW',
-            'Bugatti',
-            'Ferrari',
-            'Ford',
-            'Lamborghini',
-            'Mercedes Benz',
-            'Porsche',
-            'Rolls-Royce',
-            'Volkswagen'
+            'altalanos',
+            'vedelem',
+            'kozrend',
+            'gazdasagi',
+            'termeszetvedelem',
+            'lakasepites',
+            'egeszseg',
+            'szabadido',
+            'oktatas',
+            'szocialis'
         ];
         this.data = [
-            [
-                { id: 1, name: 'Általános közszolgáltatások', amount: 50 },
-                { id: 2, name: 'Védelem', amount: 30 },
-                { id: 3, name: 'Közrend és közbiztonság', amount: 20 },
-                { id: 4, name: 'Gazdasági ügyek', amount: 20 },
-                { id: 5, name: 'Környezetvédelem', amount: 10 },
-                { id: 6, name: 'Lakásépítés és kommunális' /* létesítmények'*/, amount: 5 },
-                { id: 7, name: 'Egészségügy', amount: 5 },
-                { id: 8, name: 'Szabadidő, sport, kultúra és vallás', amount: 5 },
-                { id: 9, name: 'Oktatás', amount: 5 },
-                { id: 10, name: 'Szociális védelem', amount: 1 }
-            ],
-            [
-                { id: 1, name: 'Általános közszolgáltatások', amount: 50 },
-                { id: 2, name: 'Védelem', amount: 30 },
-            ]
+            []
         ];
+        $.getJSON('data/budget.json')
+            .then(function (d) { return _this.budget = d; })
+            .then(function () { return $.getJSON('data/functions.json'); })
+            .then(function (d) { return _this.funcitons = d; }).then(function () {
+            console.log(_this.budget.length);
+            _this.data = _this.budget.filter(function (d) { return 0 < d.id && d.id <= 11; });
+            _this.data = [_this.funcitons
+                    .filter(function (d) { return 0 < d.id && d.id <= 11; })
+                    .map(function (d) {
+                    return {
+                        id: d.id,
+                        name: d.value,
+                        amount: _this.budget
+                            .filter(function (e) { return e.func_id.startsWith('0' + d.id); })
+                            .reduce(function (a, b) { return a + parseFloat(b.value); }, 0)
+                    };
+                })];
+        })
+            .then(function () { return _this.onDataLoaded && _this.onDataLoaded({}); });
     }
+    VisualizationModel.prototype.requestLevel = function (id) {
+        var _this = this;
+        if (id[0] !== '0')
+            id = "0" + id;
+        while (id[id.length - 1] === '0')
+            id = id.slice(0, -1);
+        var level = Math.floor(id.length / 2);
+        return this.funcitons
+            .filter(function (d) { return d.id.startsWith(id) && d.id.slice(d.id.length).split('').all(function (e) { return e == 0; }); })
+            .map(function (d) {
+            return {
+                id: d.id,
+                name: d.value,
+                amount: _this.budget
+                    .filter(function (e) { return e.func_id.startsWith(id); })
+                    .reduce(function (a, b) { return a + parseFloat(b.value); }, 0)
+            };
+        });
+    };
     return VisualizationModel;
 }());
 /// <reference path="../../../typings/jquery/jquery.d.ts" />
@@ -63,11 +87,16 @@ var VisualizationView = (function (_super) {
         this._model = _model;
         this.html = "\n<div class=\"frame\">\n    \n</div>\n";
         this.currentLevel = 0;
+        _model.onDataLoaded = this.showCurrentLevel.bind(this);
     }
-    VisualizationView.prototype.showCurrentLevel = function () {
+    VisualizationView.prototype.showCurrentLevel = function (data) {
         var _this = this;
-        var data = this._model.data[0];
-        var sum = data.map(function (d) { return d.amount; }).reduce(function (a, b) { return a + b; }); // sum
+        if (data === void 0) { data = null; }
+        // if (data === null) {
+        data = this._model.data[0];
+        // }
+        // if (!data || !data.length) return;
+        var sum = data.map(function (d) { return d.amount; }).reduce(function (a, b) { return a + b; }, 0);
         var divHeight = 334;
         var _a = [14, 34], labelBase = _a[0], labelStep = _a[1];
         var multiplier = divHeight / sum;
@@ -90,9 +119,10 @@ var VisualizationView = (function (_super) {
                 top: data
                     .filter(function (d, j) { return j < i; })
                     .map(function (d) { return d.amount * multiplier; })
-                    .reduce(function (a, b) { return a + b; }, 0)
+                    .reduce(function (a, b) { return a + b; }, 0),
+                left: 0
             }
-        }).on('click', _this.blockClicked.bind(_this)); }));
+        }).on('click', _this.blockClicked.bind(_this, d.id)); }));
         this.$('.lines')
             .empty()
             .append(data
@@ -133,6 +163,8 @@ var VisualizationView = (function (_super) {
     VisualizationView.prototype.blockClicked = function (e) {
         console.log('clicked');
         this.$('.block').css('left', -this.$('.block').width());
+        console.log(e);
+        this.showCurrentLevel(this._model.requestLevel(e));
     };
     VisualizationView.colors = [
         '#ec1e79',
@@ -167,7 +199,9 @@ $(function () {
     var model = new VisualizationModel();
     var view = new VisualizationView(model);
     // view.render('.visualization');
-    view.showCurrentLevel();
+    // view.showCurrentLevel();
+    window.model = model;
+    window.view = view;
     // typeahead
     $('input.typeahead').typeahead({
         source: model.autocompleteValues
@@ -178,11 +212,11 @@ var VisualizationFilters = (function () {
     }
     VisualizationFilters.currencyFilter = function (n) {
         if (n > 1000000000)
-            return n / 1000000000 + " milli\u00E1rd Ft";
+            return (n / 1000000000).toFixed(2) + " milli\u00E1rd Ft";
         if (n > 1000000)
-            return n / 1000000 + " milli\u00F3 Ft";
+            return (n / 1000000).toFixed(2) + " milli\u00F3 Ft";
         if (n > 1000)
-            return n / 1000 + " ezer Ft";
+            return (n / 1000).toFixed(2) + " ezer Ft";
         else
             return n + " Ft";
     };

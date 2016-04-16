@@ -6,6 +6,7 @@ class VisualizationView extends View {
         private _model: VisualizationModel
     ) {
         super();
+        _model.onDataLoaded = this.showCurrentLevel.bind(this);
     }
 
     html = `
@@ -43,11 +44,15 @@ class VisualizationView extends View {
 
     public currentLevel: number = 0;
 
-    showCurrentLevel() {
+    showCurrentLevel(data: initialDTO[] = null) {
 
-        let data = this._model.data[0];
+        // if (data === null) {
+            data = this._model.data[0];
+        // }
+        
+        // if (!data || !data.length) return;
 
-        let sum: number = data.map(d => d.amount).reduce((a, b) => a + b); // sum
+        let sum: number = data.map(d => d.amount).reduce((a, b) => a + b, 0);
 
         const divHeight = 334;
         const [labelBase, labelStep] = [14, 34]
@@ -76,9 +81,10 @@ class VisualizationView extends View {
                         top: data
                             .filter((d, j) => j < i)
                             .map(d => d.amount * multiplier)
-                            .reduce((a, b) => a + b, 0)
+                            .reduce((a, b) => a + b, 0),
+                        left: 0
                     }
-                }).on('click', this.blockClicked.bind(this)))
+                }).on('click', this.blockClicked.bind(this, d.id)))
             );
 
         this.$('.lines')
@@ -131,5 +137,9 @@ class VisualizationView extends View {
     blockClicked(e) {
         console.log('clicked');
         this.$('.block').css('left', -this.$('.block').width());
+
+        console.log(e)
+        
+        this.showCurrentLevel(this._model.requestLevel(e))
     }
 }
