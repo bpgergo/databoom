@@ -1,0 +1,19 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#searchbox, #searchButton {
+    height: 36px;
+}
+
+#searchbox {
+    width: 620px;
+    border: 1px solid black;
+}
+
+#search-button {
+    background-color: #383838;
+    color: white;
+    border: 0;
+    text-transform: uppercase;
+}

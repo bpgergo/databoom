@@ -1,0 +1,5 @@
+db_host = 'localhost'
+db_user = 'mi6app'
+db_password = 'm1six4PP'
+db_dbname = 'budget'
+db_driver_name = 'postgresql+psycopg2'
