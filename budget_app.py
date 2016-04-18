@@ -35,4 +35,4 @@ logging.basicConfig(level=logging.DEBUG)
 #this will be used when running on your own machine
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
-    run(application, debug=True, reload=True, host="192.168.43.251")
+    run(application, debug=True, reload=True, host="localhost")

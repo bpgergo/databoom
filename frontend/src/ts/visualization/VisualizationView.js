@@ -1,85 +1,9 @@
+/// <reference path="View.ts" />
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var VisualizationModel = (function () {
-    function VisualizationModel() {
-        var _this = this;
-        this.autocompleteValues = [
-            'altalanos',
-            'vedelem',
-            'kozrend',
-            'gazdasagi',
-            'termeszetvedelem',
-            'lakasepites',
-            'egeszseg',
-            'szabadido',
-            'oktatas',
-            'szocialis'
-        ];
-        this.data = [
-            []
-        ];
-        $.getJSON('data/budget.json')
-            .then(function (d) { return _this.budget = d; })
-            .then(function () { return $.getJSON('data/functions.json'); })
-            .then(function (d) { return _this.funcitons = d; }).then(function () {
-            console.log(_this.budget.length);
-            _this.data = _this.budget.filter(function (d) { return 0 < d.id && d.id <= 11; });
-            _this.data = [_this.funcitons
-                    .filter(function (d) { return 0 < d.id && d.id <= 11; })
-                    .map(function (d) {
-                    return {
-                        id: d.id,
-                        name: d.value,
-                        amount: _this.budget
-                            .filter(function (e) { return e.func_id.startsWith('0' + d.id); })
-                            .reduce(function (a, b) { return a + parseFloat(b.value); }, 0)
-                    };
-                })];
-        })
-            .then(function () { return _this.onDataLoaded && _this.onDataLoaded({}); });
-    }
-    VisualizationModel.prototype.requestLevel = function (id) {
-        var _this = this;
-        if (id[0] !== '0')
-            id = "0" + id;
-        while (id[id.length - 1] === '0')
-            id = id.slice(0, -1);
-        var level = Math.floor(id.length / 2);
-        return this.funcitons
-            .filter(function (d) { return d.id.startsWith(id) && d.id.slice(d.id.length).split('').all(function (e) { return e == 0; }); })
-            .map(function (d) {
-            return {
-                id: d.id,
-                name: d.value,
-                amount: _this.budget
-                    .filter(function (e) { return e.func_id.startsWith(id); })
-                    .reduce(function (a, b) { return a + parseFloat(b.value); }, 0)
-            };
-        });
-    };
-    return VisualizationModel;
-}());
-/// <reference path="../../../typings/jquery/jquery.d.ts" />
-var View = (function () {
-    function View() {
-    }
-    Object.defineProperty(View.prototype, "_domElement", {
-        get: function () { return this._selector; },
-        enumerable: true,
-        configurable: true
-    });
-    View.prototype.render = function (selector) {
-        (this._selector = $(selector)).html(this.html);
-    };
-    View.prototype.$ = function (selector) {
-        return $(selector, this._selector);
-    };
-    return View;
-}());
-/// <reference path="View.ts" />
 var VisualizationView = (function (_super) {
     __extends(VisualizationView, _super);
     function VisualizationView(_model) {
@@ -192,33 +116,5 @@ var VisualizationView = (function (_super) {
         10: 'szocialis'
     };
     return VisualizationView;
-}(View));
-/// <reference path="visualization/VisualizationModel.ts" />
-/// <reference path="visualization/VisualizationView.ts" />
-$(function () {
-    var model = new VisualizationModel();
-    var view = new VisualizationView(model);
-    // view.render('.visualization');
-    // view.showCurrentLevel();
-    window.model = model;
-    window.view = view;
-    // typeahead
-    $('input.typeahead').typeahead({
-        source: model.autocompleteValues
-    });
-});
-var VisualizationFilters = (function () {
-    function VisualizationFilters() {
-    }
-    VisualizationFilters.currencyFilter = function (n) {
-        if (n > 1000000000)
-            return (n / 1000000000).toFixed(2) + " milli\u00E1rd Ft";
-        if (n > 1000000)
-            return (n / 1000000).toFixed(2) + " milli\u00F3 Ft";
-        if (n > 1000)
-            return (n / 1000).toFixed(2) + " ezer Ft";
-        else
-            return n + " Ft";
-    };
-    return VisualizationFilters;
-}());
+})(View);
+//# sourceMappingURL=VisualizationView.js.map

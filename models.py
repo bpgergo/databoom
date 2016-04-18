@@ -95,10 +95,10 @@ def json_budget(self):
     return {"id": self.id,
             "func_id": self.func_id,
             "econ_id": self.econ_id,
-            "org_id": self.org_id,
+            # "org_id": self.org_id,
             "value": str(self.amount), # '{0:.3g}'.format(self.amount),
-            "date_start": start,
-            "date_end": end,
-            "comments": self.comm,
-            "tags": tags
+            #"date_start": start,
+            #"date_end": end,
+            #"comments": self.comm,
+            #"tags": tags
             }
