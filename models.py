@@ -47,14 +47,15 @@ class Func(Base):
         return {"id": self.id, "parent_id": self.parent_id, "value": self.value, "tags": tags}
 
 
+def json_default(self):
+        result = {"id": self.id, "parent_id": self.parent_id, "value": self.value}
+        return result
+
+
 def json_func(self):
         result = {"id": self.id, "parent_id": self.parent_id, "value": self.value}
-        if hasattr(self, "tags"):
-            tags = None
-            if self.tags:
-                [tag.strip() for tag in self.tags.split(",")]
-            result["tags"] = tags
-
+        if self.tags:
+            result["tags"] = [s.strip() for s in self.tags.split(',') if s]
         return result
 
 

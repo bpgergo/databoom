@@ -2,20 +2,20 @@
   "regionCode": "eu",
   "countryCode": "HU",
   "cityCode": "Budapest",
-  "name": "zuglo2014",
+  "name": "expenses-of-zuglo-2014",
   "fiscalPeriod": {
     "start": "2014-01-01",
     "end": "2014-12-31"
   },
-  "title": "zuglo2014",
-  "description": "Budget expenditure of District XIV, Zugló in Budapest,Hungary",
+  "title": "Expenses of Zugló 2014",
+  "description": "Expenses of Zugló, 14th. District of Budapest, Hungary in 2014",
   "resources": [
     {
-      "name": "ops_budget",
+      "name": "os_budget_zuglo_2014",
       "format": "csv",
-      "path": "ops_budget.csv",
+      "path": "os_budget_zuglo_2014.csv",
       "mediatype": "text/csv",
-      "bytes": 1854191,
+      "bytes": 359811,
       "dialect": {
         "csvddfVersion": 1,
         "delimiter": ",",
@@ -24,101 +24,59 @@
       "schema": {
         "fields": [
           {
-            "name": "016010",
-            "title": "016010",
+            "name": "Functional class",
+            "title": "Functional Class",
             "description": "",
             "type": "string",
             "format": "default"
           },
           {
-            "name": "Országgyűlési, önkormányzati és európai parlamenti képviselőválasztásokhoz kapcsolódó tevékenységek",
-            "title": "Országgyűlési, önkormányzati és Európai Parlamenti Képviselőválasztásokhoz Kapcsolódó Tevékenységek",
+            "name": "Parent Funcional class",
+            "title": "Parent Funcional Class",
             "description": "",
-            "type": "integer",
+            "type": "string",
             "format": "default"
           },
           {
-            "name": "0160",
-            "title": "0160",
+            "name": "Parent of parent Functional class",
+            "title": "Parent Of Parent Functional Class",
             "description": "",
-            "type": "integer",
+            "type": "string",
             "format": "default"
           },
           {
-            "name": "Egyéb általános közszolgáltatások",
-            "title": "Egyéb általános Közszolgáltatások",
+            "name": "Economical class",
+            "title": "Economical Class",
             "description": "",
-            "type": "integer",
+            "type": "string",
             "format": "default"
           },
           {
-            "name": "0150",
-            "title": "0150",
+            "name": "Parent Economical class",
+            "title": "Parent Economical Class",
             "description": "",
-            "type": "integer",
+            "type": "string",
             "format": "default"
           },
           {
-            "name": "Általános közszolgáltatásokhoz kapcsolódó K+F",
-            "title": "általános Közszolgáltatásokhoz Kapcsolódó K+f",
+            "name": "Parent of parent Economical class",
+            "title": "Parent Of Parent Economical Class",
             "description": "",
-            "type": "integer",
+            "type": "string",
             "format": "default"
           },
           {
-            "name": "23",
-            "title": "23",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "ebből rehabilitációs hozzájárulás K",
-            "title": "Ebből Rehabilitációs Hozzájárulás K",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "21",
-            "title": "21",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "Munkaadókat terhelő járulékok és szociális hozzájárulási adó",
-            "title": "Munkaadókat Terhelő Járulékok és Szociális Hozzájárulási Adó",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "271",
-            "title": "271",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "Költségvetési kiadások",
-            "title": "Költségvetési Kiadások",
-            "description": "",
-            "type": "integer",
-            "format": "default"
-          },
-          {
-            "name": "2016-04-16",
-            "title": "2016 04 16",
+            "name": "Date",
+            "title": "Date",
             "description": "",
             "type": "datetime",
             "format": "default"
           },
           {
-            "name": "0",
-            "title": "0",
+            "name": "Amount (1000 HUF)",
+            "title": "Amount (1000 HUF)",
             "description": "",
-            "type": "number",
+            "type": "integer",
             "format": "default"
           }
         ]
@@ -127,100 +85,70 @@
   ],
   "model": {
     "measures": {
-      "0": {
+      "amount-1000-huf": {
         "currency": "HUF",
         "direction": "expenditure",
         "phase": "executed",
-        "source": "0",
-        "resource": "ops_budget"
+        "source": "Amount (1000 HUF)",
+        "resource": "os_budget_zuglo_2014"
       }
     },
     "dimensions": {
-      "classification-functional": {
-        "classificationType": "functional",
-        "dimensionType": "classification",
-        "primaryKey": [
-          "016010",
-          "orszaggyulesi-onkormanyzati-es-europai-parlamenti-kepviselovalasztasokhoz-kapcsolodo-tevekenysegek",
-          "0160",
-          "egyeb-altalanos-kozszolgaltatasok",
-          "0150",
-          "altalanos-kozszolgaltatasokhoz-kapcsolodo-k-f"
-        ],
-        "attributes": {
-          "016010": {
-            "source": "016010",
-            "resource": "ops_budget"
-          },
-          "orszaggyulesi-onkormanyzati-es-europai-parlamenti-kepviselovalasztasokhoz-kapcsolodo-tevekenysegek": {
-            "source": "Országgyűlési, önkormányzati és európai parlamenti képviselőválasztásokhoz kapcsolódó tevékenységek",
-            "resource": "ops_budget"
-          },
-          "0160": {
-            "source": "0160",
-            "resource": "ops_budget"
-          },
-          "egyeb-altalanos-kozszolgaltatasok": {
-            "source": "Egyéb általános közszolgáltatások",
-            "resource": "ops_budget"
-          },
-          "0150": {
-            "source": "0150",
-            "resource": "ops_budget"
-          },
-          "altalanos-kozszolgaltatasokhoz-kapcsolodo-k-f": {
-            "source": "Általános közszolgáltatásokhoz kapcsolódó K+F",
-            "resource": "ops_budget"
-          }
-        }
-      },
       "classification-economic": {
         "classificationType": "economic",
         "dimensionType": "classification",
         "primaryKey": [
-          "23",
-          "ebbol-rehabilitacios-hozzajarulas-k",
-          "21",
-          "munkaadokat-terhelo-jarulekok-es-szocialis-hozzajarulasi-ado",
-          "271",
-          "koltsegvetesi-kiadasok"
+          "functional-class",
+          "economical-class",
+          "parent-economical-class",
+          "parent-of-parent-economical-class"
         ],
         "attributes": {
-          "21": {
-            "source": "21",
-            "resource": "ops_budget"
+          "functional-class": {
+            "source": "Functional class",
+            "resource": "os_budget_zuglo_2014"
           },
-          "23": {
-            "source": "23",
-            "resource": "ops_budget"
+          "economical-class": {
+            "source": "Economical class",
+            "resource": "os_budget_zuglo_2014"
           },
-          "271": {
-            "source": "271",
-            "resource": "ops_budget"
+          "parent-economical-class": {
+            "source": "Parent Economical class",
+            "resource": "os_budget_zuglo_2014"
           },
-          "ebbol-rehabilitacios-hozzajarulas-k": {
-            "source": "ebből rehabilitációs hozzájárulás K",
-            "resource": "ops_budget"
+          "parent-of-parent-economical-class": {
+            "source": "Parent of parent Economical class",
+            "resource": "os_budget_zuglo_2014"
+          }
+        }
+      },
+      "classification-functional": {
+        "classificationType": "functional",
+        "dimensionType": "classification",
+        "primaryKey": [
+          "parent-funcional-class",
+          "parent-of-parent-functional-class"
+        ],
+        "attributes": {
+          "parent-funcional-class": {
+            "source": "Parent Funcional class",
+            "resource": "os_budget_zuglo_2014"
           },
-          "munkaadokat-terhelo-jarulekok-es-szocialis-hozzajarulasi-ado": {
-            "source": "Munkaadókat terhelő járulékok és szociális hozzájárulási adó",
-            "resource": "ops_budget"
-          },
-          "koltsegvetesi-kiadasok": {
-            "source": "Költségvetési kiadások",
-            "resource": "ops_budget"
+          "parent-of-parent-functional-class": {
+            "source": "Parent of parent Functional class",
+            "resource": "os_budget_zuglo_2014"
           }
         }
       },
       "datetime": {
         "dimensionType": "datetime",
         "primaryKey": [
-          "2016-04-16"
+          "date"
         ],
         "attributes": {
-          "2016-04-16": {
-            "source": "2016-04-16",
-            "resource": "ops_budget"
+          "date": {
+            "source": "Date",
+            "resource": "os_budget_zuglo_2014"
           }
         }
       }

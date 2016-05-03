@@ -12,13 +12,13 @@ def funcs():
 @route('/economies')
 def econs():
     response.content_type='application/json'
-    return json.dumps([json_func(f) for f in get_all_econ()])
+    return json.dumps([json_default(f) for f in get_all_econ()])
 
 
 @route('/organizations')
 def orgs():
     response.content_type='application/json'
-    return json.dumps([json_func(f) for f in get_all_org()])
+    return json.dumps([json_default(f) for f in get_all_org()])
 
 
 
